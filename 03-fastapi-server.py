@@ -10,6 +10,7 @@ load_dotenv()
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, StreamingResponse
 from google.adk.agents import LlmAgent
+from google.adk.models.lite_llm import LiteLlm
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
@@ -24,7 +25,7 @@ def get_greeting(name: str) -> dict:
     return {"greeting": f"Hello, {name}! Welcome aboard."}
 
 agent = LlmAgent(
-    model="gemini-2.5-flash",
+    model=LiteLlm(model="openai/gpt-4o-mini"),
     name="greeter",
     instruction="You are a friendly greeter. Use the get_greeting tool when someone introduces themselves.",
     tools=[get_greeting],
@@ -47,9 +48,9 @@ async def chat(request: Request):
     session_id = body.get("session_id", "default_session")
 
     # Ensure session exists
-    session = await session_service.get_session(APP_NAME, user_id, session_id)
+    session = await session_service.get_session(app_name=APP_NAME, user_id=user_id, session_id=session_id)
     if not session:
-        session = await session_service.create_session(APP_NAME, user_id, session_id)
+        session = await session_service.create_session(app_name=APP_NAME, user_id=user_id, session_id=session_id)
 
     response_text = ""
     tool_calls = []
@@ -80,9 +81,9 @@ async def chat_stream(request: Request):
     user_id = body.get("user_id", "default_user")
     session_id = body.get("session_id", "default_session")
 
-    session = await session_service.get_session(APP_NAME, user_id, session_id)
+    session = await session_service.get_session(app_name=APP_NAME, user_id=user_id, session_id=session_id)
     if not session:
-        await session_service.create_session(APP_NAME, user_id, session_id)
+        await session_service.create_session(app_name=APP_NAME, user_id=user_id, session_id=session_id)
 
     async def stream():
         async for event in runner.run_async(
