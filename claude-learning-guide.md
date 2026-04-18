@@ -5,7 +5,7 @@
 | # | Topic | Type | Status |
 |---|-------|------|--------|
 | 1 | **Introduction** — What is Google ADK, positioning, architecture overview | Theory | [x] |
-| 2 | **Foundation** — Core concepts: Agents, Tools, Sessions, Memory, Models | Theory | [ ] |
+| 2 | **Foundation** — Core concepts: Agents, Tools, Sessions, Memory, Models | Theory | [x] |
 | 3 | **Integration** — Setting up ADK, connecting to Gemini/other LLMs, tool creation | Hands-on | [ ] |
 | 4 | **Advanced** — Multi-agent systems, orchestration, callbacks, custom agents | Hands-on | [ ] |
 | 5 | **Deployment** — Agent Engine (Vertex AI), Cloud Run, containerized deployment | Hands-on | [ ] |
